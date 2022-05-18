@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Mon Mar 29 07:57:29 2021
-
-@author: tomas
-"""
 # %%
 import pandas as pd
 import json
