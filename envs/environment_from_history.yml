@@ -64,4 +64,3 @@ dependencies:
   - openssl==1.1.1k=h7f98852_0
   - brotlipy==0.7.0=py36h8f6f2f9_1001
   - setuptools==49.6.0=py36h5fab9bb_3
-prefix: /home/tomas/miniconda3/envs/gene_annot
