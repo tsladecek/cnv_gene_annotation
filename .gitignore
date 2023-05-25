@@ -1,4 +1,5 @@
 data/
+input.bed
 .snakemake
 *pycache*
 *.pyc
