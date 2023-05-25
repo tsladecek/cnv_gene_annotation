@@ -51,6 +51,8 @@ rule annotate_cnv:
         genes_preprocessed = "data/generated_data/genes_preprocessed.tsv",
         genes_preprocessed_scaled = "data/generated_data/genes_preprocessed_scaled.tsv",
         genes_preprocessed_unimputed = "data/generated_data/genes_preprocessed_unimputed.tsv",
+        genes_raw = "data/generated_data/gencode_dbnsfp_protein_coding.tsv"
+
     output:
         cnv = "data/annotated_cnvs_json/{chrom}_{start}_{end}_{cnv_type}.json.gz"
     script:

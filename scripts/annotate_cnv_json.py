@@ -49,7 +49,7 @@ minimal_overlap = 1
 genes = pd.read_csv(snakemake.input.genes_preprocessed, sep='\t', index_col=0)
 genes_scaled = pd.read_csv(snakemake.input.genes_preprocessed_scaled, sep='\t', index_col=0)
 genes_unimputed = pd.read_csv(snakemake.input.genes_preprocessed_unimputed, sep='\t', index_col=0)
-
+genes_raw = pd.read_csv(snakemake.input.genes_raw, sep='\t', index_col=0)
 
 # %%
 
@@ -72,9 +72,8 @@ genes_in_cnv = genes_in_cnv.drop_duplicates()
 
 genes_in_cnv_scaled = genes_scaled.iloc[genes_in_cnv.index]
 genes_in_cnv_unimputed = genes_unimputed.iloc[genes_in_cnv.index]
+genes_in_cnv_raw = genes_raw.iloc[genes_in_cnv.index]
 
-
-print(genes_in_cnv.shape)
 # %% Make json file
 genes_json = []
 
@@ -82,10 +81,20 @@ for i in range(genes_in_cnv.shape[0]):
     g = {}
     for j in range(4, genes_in_cnv.shape[1]):
         attribute = genes_in_cnv.columns[j]
+
+        try:
+            raw_value = genes_in_cnv_raw.iloc[i].loc[attribute]
+        except KeyError:
+            # the attribute is dummied (value is appended to attribute name
+            # as {attribute}_{value})
+            att = '_'.join(attribute.split('_')[:-1])
+            raw_value = genes_in_cnv_raw.iloc[i].loc[att]
+
         g[attribute] = {
-            "value": genes_in_cnv.iloc[i, j],
-            "value_scaled": genes_in_cnv_scaled.iloc[i, j],
-            "value_raw": genes_in_cnv_unimputed.iloc[i, j]
+            "imputed_unscaled": genes_in_cnv.iloc[i].loc[attribute],
+            "imputed_scaled": genes_in_cnv_scaled.iloc[i].loc[attribute],
+            "unimputed_unscaled": genes_in_cnv_unimputed.iloc[i].loc[attribute],
+            "raw": raw_value
         }
     genes_json.append(g)
 

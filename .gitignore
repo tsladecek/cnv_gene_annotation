@@ -3,3 +3,4 @@ input.bed
 .snakemake
 *pycache*
 *.pyc
+.idea
